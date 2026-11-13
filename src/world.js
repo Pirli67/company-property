@@ -416,6 +416,15 @@ export class World {
     }
   }
 
+  // Clears traffic around a point, so nothing parks in front of the end-of-run camera.
+  clearTrafficNear(d, radius) {
+    for (let i = this.traffic.length - 1; i >= 0; i--) {
+      if (Math.abs(this.traffic[i].d - d) > radius) continue;
+      this.pools.traffic.release(this.traffic[i].id);
+      this.traffic.splice(i, 1);
+    }
+  }
+
   // --- Debris -----------------------------------------------------------------
 
   // Turn a static obstacle into a flying one.

@@ -183,6 +183,7 @@ function endRun(won) {
     audio.hit('caught', 30);
     game.shake = 1;
     setState('caught');
+    world.clearTrafficNear(player.d, 40);
     // He gets out and has a word at the driver's window.
     const side = (game.side = player.x < -3.5 ? 1 : -1);
     man.visible = true;
