@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#101418" />
+    <title>Company Car Chase</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+
+    <div id="hud" class="hidden">
+      <div class="panel battery" id="batteryPanel">
+        <div class="label">BATTERY <span id="batteryState"></span></div>
+        <div class="bar"><div id="batteryFill"></div></div>
+        <div class="value"><span id="batteryPct">55</span>%</div>
+      </div>
+
+      <div class="panel gap" id="gapPanel">
+        <div class="label">HE IS BEHIND YOU</div>
+        <div class="value"><span id="gap">110</span> m</div>
+      </div>
+
+      <div class="panel speed">
+        <div class="value"><span id="speed">0</span></div>
+        <div class="label">km/h</div>
+      </div>
+
+      <div id="route">
+        <div id="routeTrack"></div>
+        <div class="marker chaser" id="mChaser" title="Him"></div>
+        <div class="marker player" id="mPlayer" title="You"></div>
+        <div class="marker finish" title="Lunch">🥙</div>
+      </div>
+
+      <div id="stack">
+        <div id="mirror" class="hidden"><span>REAR CAMERA</span></div>
+        <div id="toast"></div>
+      </div>
+
+      <div id="subtitle" class="hidden">
+        <svg class="portrait" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="10" fill="#2b3440" />
+          <path d="M10 64c2-14 10-20 22-20s20 6 22 20z" fill="#fafafa" />
+          <path d="M26 44l6 7 6-7z" fill="#e8b796" />
+          <ellipse cx="32" cy="29" rx="13" ry="15" fill="#e8b796" />
+          <path d="M18 26c0-12 8-16 14-16s14 4 14 16c-3-6-7-8-14-8s-11 2-14 8z" fill="#a9a9a9" />
+          <rect x="19" y="26" width="11" height="7" rx="1.5" fill="#cfe4f2" stroke="#151515" stroke-width="1.6" />
+          <rect x="34" y="26" width="11" height="7" rx="1.5" fill="#cfe4f2" stroke="#151515" stroke-width="1.6" />
+          <path d="M30 29h4" stroke="#151515" stroke-width="1.6" />
+          <path d="M19 23l10 3M45 23l-10 3" stroke="#6f6f6f" stroke-width="2" stroke-linecap="round" />
+          <path d="M26 39q6-3 12 0" stroke="#7a3b2e" stroke-width="2" fill="none" stroke-linecap="round" />
+        </svg>
+        <p id="subtitleText"></p>
+      </div>
+    </div>
+
+    <div id="touch">
+      <div class="pad left">
+        <button data-btn="left" aria-label="Steer left">◀</button>
+        <button data-btn="right" aria-label="Steer right">▶</button>
+      </div>
+      <div class="pad right">
+        <button data-btn="boost" aria-label="Boost">⚡</button>
+        <button data-btn="brake" aria-label="Brake">■</button>
+      </div>
+    </div>
+
+    <div id="loading" class="overlay">
+      <div class="card">
+        <h1>Company Car Chase</h1>
+        <div class="bar"><div id="loadFill"></div></div>
+      </div>
+    </div>
+
+    <div id="menu" class="overlay hidden">
+      <div class="card">
+        <div class="sticker">COMPANY PROPERTY</div>
+        <h1>Company Car Chase</h1>
+        <p class="story">
+          Monday, 12:00. The five apprentices take the company car to lunch. Again.<br />
+          He has no authority to stop them. He has a pickup truck.
+        </p>
+        <ul class="how">
+          <li><b>W A S D</b> / arrows: drive</li>
+          <li><b>Shift</b> / <b>Space</b>: boost (eats battery)</li>
+          <li><b>C</b>: look back · <b>P</b>: pause · <b>M</b>: mute</li>
+          <li>Pull into a <span class="bolt">⚡</span> bay on the right and <b>stop</b> to charge. He does not stop.</li>
+        </ul>
+        <button id="startBtn" class="primary">Drive to lunch — <span id="weekLabel">Week 1</span></button>
+      </div>
+    </div>
+
+    <div id="pause" class="overlay hidden">
+      <div class="card">
+        <h1>Paused</h1>
+        <button id="resumeBtn" class="primary">Keep driving</button>
+      </div>
+    </div>
+
+    <div id="end" class="overlay hidden">
+      <div class="card">
+        <div class="sticker" id="endSticker">COMPANY PROPERTY</div>
+        <h1 id="endTitle"></h1>
+        <p class="story" id="endText"></p>
+        <dl id="endStats"></dl>
+        <button id="againBtn" class="primary">Again</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

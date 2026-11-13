@@ -1,0 +1,83 @@
+{
+  "models": {
+    "concept": "fal-ai/nano-banana-2",
+    "imageTo3d": "fal-ai/trellis-2",
+    "tts": "elevenlabs/tts/eleven-v4"
+  },
+  "style": "Stylised 3D game asset concept art, chunky slightly exaggerated toy-like proportions, clean simple shapes, flat matte colours with soft gradient shading, minimal surface detail, soft even studio lighting, no harsh shadows. Single isolated object, centred, fully in frame with margin, three-quarter front view from slightly above eye level. Plain uniform light grey background. No text, no logos, no badges, no brand marks, no license plate text, no watermark.",
+  "conceptInput": { "num_images": 1, "aspect_ratio": "1:1", "resolution": "1K", "output_format": "png" },
+  "imageTo3dInput": { "resolution": 1024, "decimation_target": 40000, "texture_size": 2048, "remesh": true },
+  "assets": {
+    "player_car": {
+      "prompt": "A modern compact electric crossover SUV: smooth aerodynamic body, sloping fastback roofline, closed smooth nose with no front grille, flush door handles, dark panoramic glass roof, slim LED headlights, five-spoke aero wheels. Deep metallic blue paint. Lightly tinted side windows with the simple silhouettes of five young passengers visible inside. Original generic design, completely unbranded.",
+      "size": { "axis": "z", "metres": 4.72 },
+      "yaw": 180,
+      "triangles": 24000,
+      "texture": 2048
+    },
+    "pickup": {
+      "prompt": "An older 1990s-style full-size American pickup truck: single cab, long open cargo bed, boxy squared-off body, plain chrome front bumper and simple chrome grille, steel wheels, dark tinted windows. Slightly worn white paint with a little dust and rust near the wheel arches. Original generic design, completely unbranded.",
+      "size": { "axis": "z", "metres": 5.9 },
+      "yaw": 180,
+      "triangles": 24000,
+      "texture": 2048
+    },
+    "chaser": {
+      "prompt": "A stylised cartoon game character, full body, standing upright facing the viewer in a relaxed A-pose with arms slightly away from the body: a slim middle-aged office worker with short cropped grey hair, clean-shaven, rectangular dark thin-rimmed glasses, a white open-collar dress shirt, dark grey trousers and black shoes. Grumpy, stern, annoyed expression with furrowed eyebrows.",
+      "size": { "axis": "y", "metres": 1.87 },
+      "yaw": 180,
+      "triangles": 12000,
+      "texture": 1024
+    },
+    "traffic_car": {
+      "prompt": "A small generic five-door city hatchback car with rounded friendly shapes, dark tinted windows and simple steel wheels. Warm orange paint. Original generic design, completely unbranded.",
+      "size": { "axis": "z", "metres": 3.9 },
+      "yaw": 180,
+      "triangles": 8000,
+      "texture": 1024
+    },
+    "cone": {
+      "prompt": "An orange traffic cone with two white reflective stripes and a black square rubber base.",
+      "size": { "axis": "y", "metres": 0.67 },
+      "yaw": 0,
+      "triangles": 600,
+      "texture": 512
+    },
+    "barrier": {
+      "prompt": "A single plastic road construction barrier segment (water-filled jersey barrier style), about two metres long and one metre tall, with bold alternating red and white sections.",
+      "size": { "axis": "x", "metres": 2.0 },
+      "yaw": 0,
+      "triangles": 1200,
+      "texture": 1024
+    },
+    "charger": {
+      "prompt": "A roadside electric vehicle fast-charging station: a slim white and teal pedestal tower with a small dark screen, a black charging cable with plug holstered on its side, a glowing green status light strip, standing on a small concrete base. Generic unbranded design.",
+      "size": { "axis": "y", "metres": 2.2 },
+      "yaw": 180,
+      "triangles": 3000,
+      "texture": 1024
+    },
+    "tree": {
+      "prompt": "A roadside deciduous tree with a chunky brown trunk and a full rounded green canopy made of a few large faceted leaf clumps.",
+      "size": { "axis": "y", "metres": 5.9 },
+      "yaw": 0,
+      "triangles": 1500,
+      "texture": 1024
+    },
+    "kiosk": {
+      "prompt": "A small street-food lunch kiosk: a compact snack stand with a red and white striped awning, an open serving counter, a kebab spit and a few snacks visible inside, a blank menu board and a blank roof sign. Generic unbranded design.",
+      "size": { "axis": "y", "metres": 3.1 },
+      "yaw": 180,
+      "triangles": 8000,
+      "texture": 1024
+    }
+  },
+  "voice": {
+    "voice": "Bill",
+    "stability": 0.3,
+    "similarity_boost": 0.75,
+    "language_code": "en",
+    "output_format": "mp3_44100_128",
+    "tagPrefix": "[angry] [shouting]"
+  }
+}

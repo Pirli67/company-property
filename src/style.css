@@ -1,0 +1,483 @@
+:root {
+  --ink: #101418;
+  --panel: rgba(16, 20, 24, 0.78);
+  --yellow: #ffd23f;
+  --green: #3df07a;
+  --red: #ff4d4d;
+  --text: #f5f7f8;
+  font-family: ui-rounded, 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--text);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------- HUD ---------- */
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 10px 14px;
+  backdrop-filter: blur(6px);
+}
+
+.panel .label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.panel .value {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.battery {
+  left: 14px;
+  width: min(230px, 42vw);
+}
+
+.battery .bar {
+  height: 14px;
+  margin: 6px 0 4px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+#batteryFill {
+  height: 100%;
+  width: 55%;
+  background: var(--green);
+  border-radius: 7px;
+  transition: background 0.2s;
+}
+
+.battery.low #batteryFill {
+  background: var(--red);
+}
+
+.battery.low {
+  animation: pulse 0.6s infinite alternate;
+}
+
+.battery.charging #batteryFill {
+  background: repeating-linear-gradient(110deg, var(--green) 0 10px, #9bffbe 10px 20px);
+  background-size: 200% 100%;
+  animation: slide 0.6s linear infinite;
+}
+
+#batteryState {
+  color: var(--yellow);
+}
+
+.gap {
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  min-width: 170px;
+}
+
+.gap.warn .value {
+  color: var(--yellow);
+}
+
+.gap.danger {
+  background: rgba(150, 18, 18, 0.88);
+  animation: pulse 0.35s infinite alternate;
+}
+
+.speed {
+  right: 14px;
+  text-align: right;
+  min-width: 96px;
+}
+
+.speed .value {
+  font-size: 34px;
+}
+
+#route {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: calc(max(14px, env(safe-area-inset-top)) + 84px);
+  height: 22px;
+}
+
+#routeTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 9px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(16, 20, 24, 0.6);
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.marker.bay {
+  width: 14px;
+  height: 14px;
+  top: 4px;
+  border-radius: 4px;
+  background: #12a35a;
+  border: 2px solid #fff;
+}
+
+.marker.player {
+  width: 14px;
+  height: 14px;
+  top: 4px;
+  border-radius: 50%;
+  background: #2f6bff;
+  border: 2px solid #fff;
+}
+
+.marker.chaser {
+  width: 14px;
+  height: 14px;
+  top: 4px;
+  border-radius: 3px;
+  background: #fff;
+  border: 2px solid var(--red);
+}
+
+.marker.finish {
+  left: 100%;
+}
+
+#stack {
+  position: absolute;
+  left: 50%;
+  top: calc(max(14px, env(safe-area-inset-top)) + 112px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Frame around the rear-camera viewport, which is drawn on the canvas below. */
+#mirror {
+  width: min(380px, 44vw);
+  aspect-ratio: 3 / 1;
+  border: 3px solid var(--ink);
+  outline: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  position: relative;
+}
+
+#mirror.danger {
+  outline-color: var(--red);
+}
+
+#mirror span {
+  position: absolute;
+  left: 6px;
+  bottom: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  opacity: 0.8;
+  text-shadow: 0 1px 2px #000;
+}
+
+#toast {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--panel);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+#toast.on {
+  opacity: 1;
+}
+
+#toast.good {
+  background: rgba(14, 122, 62, 0.9);
+}
+
+#toast.bad {
+  background: rgba(150, 18, 18, 0.9);
+}
+
+#subtitle {
+  position: absolute;
+  left: 50%;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(720px, 92vw);
+  padding: 10px 16px 10px 10px;
+  border-radius: 16px;
+  background: var(--panel);
+  border: 2px solid var(--yellow);
+}
+
+#subtitle .portrait {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+#subtitle p {
+  margin: 0;
+  font-size: clamp(15px, 2.1vw, 20px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* After the run only the subtitle stays on screen. */
+#hud.ended .panel,
+#hud.ended #route,
+#hud.ended #stack {
+  display: none;
+}
+
+/* ---------- Overlays ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: radial-gradient(ellipse at center, rgba(16, 20, 24, 0.35), rgba(16, 20, 24, 0.82));
+}
+
+#loading {
+  background: var(--ink);
+}
+
+.card {
+  width: min(560px, 100%);
+  padding: 26px 28px 28px;
+  border-radius: 22px;
+  background: rgba(16, 20, 24, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.card h1 {
+  margin: 8px 0 10px;
+  font-size: clamp(30px, 6vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.sticker {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 3px solid var(--ink);
+  outline: 2px solid var(--yellow);
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  transform: rotate(-3deg);
+}
+
+.story {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.how {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  font-size: 14.5px;
+  line-height: 1.75;
+  opacity: 0.9;
+}
+
+.how b {
+  color: var(--yellow);
+}
+
+.bolt {
+  color: var(--green);
+}
+
+button.primary {
+  pointer-events: auto;
+  cursor: pointer;
+  width: 100%;
+  padding: 15px 18px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--yellow);
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+button.primary:hover {
+  filter: brightness(1.08);
+}
+
+#loading .bar {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+#loadFill {
+  height: 100%;
+  width: 0;
+  background: var(--yellow);
+  transition: width 0.2s;
+}
+
+#endStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+#endStats div {
+  padding: 10px 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+#endStats dt {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+#endStats dd {
+  margin: 2px 0 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* ---------- Touch ---------- */
+
+#touch {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  padding: 0 14px max(18px, env(safe-area-inset-bottom));
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+#touch.on {
+  display: flex;
+}
+
+#touch .pad {
+  display: flex;
+  gap: 12px;
+}
+
+#touch button {
+  pointer-events: auto;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(16, 20, 24, 0.45);
+  color: #fff;
+  font-size: 28px;
+}
+
+#touch button.down {
+  background: rgba(255, 210, 63, 0.7);
+}
+
+#touch.on ~ #hud #subtitle,
+body:has(#touch.on) #subtitle {
+  bottom: 110px;
+}
+
+@keyframes pulse {
+  to {
+    filter: brightness(1.5);
+  }
+}
+
+@keyframes slide {
+  to {
+    background-position: -40px 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .panel .value {
+    font-size: 20px;
+  }
+  .speed .value {
+    font-size: 24px;
+  }
+  .gap {
+    min-width: 120px;
+  }
+  .gap .label {
+    font-size: 9px;
+  }
+  #route {
+    top: calc(max(14px, env(safe-area-inset-top)) + 74px);
+  }
+}

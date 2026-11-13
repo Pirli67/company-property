@@ -1,0 +1,33 @@
+{
+  "models": {
+    "player_car": {
+      "file": null
+    },
+    "pickup": {
+      "file": null
+    },
+    "chaser": {
+      "file": null
+    },
+    "traffic_car": {
+      "file": null
+    },
+    "cone": {
+      "file": null
+    },
+    "barrier": {
+      "file": null
+    },
+    "charger": {
+      "file": null
+    },
+    "tree": {
+      "file": null
+    },
+    "kiosk": {
+      "file": null
+    }
+  },
+  "portrait": null,
+  "voice": {}
+}
