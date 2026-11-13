@@ -69,10 +69,18 @@ const game = {
   state: 'loading', // loading | menu | playing | paused | caught | won
   time: 0,
   stateTime: 0,
-  week: Number(localStorage.getItem('ccc.week')) || 1,
+  week: loadWeek(),
   shake: 0,
   stats: null,
 };
+
+function loadWeek() {
+  try {
+    return Number(localStorage.getItem('ccc.week')) || 1;
+  } catch {
+    return 1; // private windows and sandboxed frames can refuse storage
+  }
+}
 
 let world, player, chaser, man, playerGroup, chaserGroup;
 
@@ -176,7 +184,11 @@ function endRun(won) {
   audio.stopVoice();
   if (won) {
     game.week++;
-    localStorage.setItem('ccc.week', game.week);
+    try {
+      localStorage.setItem('ccc.week', game.week);
+    } catch {
+      /* storage blocked: the week counter just lasts for this visit */
+    }
     audio.jingle(true);
     setState('won');
   } else {
